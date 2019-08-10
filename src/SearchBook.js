@@ -9,13 +9,26 @@ class SearchBooks extends Component {
   
   updateQuery = (query)=>{
     this.setState({query: query.trim()})
-    if(this.props.onSearchBooks)
-      this.props.onSearchBooks(this.state.query)
+    
   }
-  
+  sendQuery = (key)=>{
+    if(key==='Enter'){
+      if(this.props.onSearchBooks)
+      {
+        // console.log(this.state.query)
+        this.props.onSearchBooks(this.state.query)
+      }
+    }
+  }
+  // getOne = (bookId)=>{
+  //   if(this.props.onSearchById && bookId)
+  //   this.props.onSearchById(bookId)
+  //   console.log(bookId)
+  // }
   render() {
     const {query} = this.state;
     const {books}= this.props;
+    // console.log(books)
         return (
             <div className="search-books">
               <div className="search-books-bar">
@@ -25,6 +38,9 @@ class SearchBooks extends Component {
                     onChange={(e)=>{
                       this.updateQuery(e.target.value)
                     }} 
+                    onKeyDown={(e)=>{
+                      this.sendQuery(e.key, query)
+                    }}
                     books= {this.state.books} 
                     type="text" 
                     placeholder="Search by title or author"
@@ -38,9 +54,12 @@ class SearchBooks extends Component {
                       <li key = {book.id}>
                         <div className="book">
                           <div className="book-top">
-                            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail}` }}></div>
+                            {
+                              book.imageLinks && book.imageLinks.thumbnail &&
+                              <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail}` }}></div>
+                            }
                             <div className="book-shelf-changer">
-                              <select value = {book.shelf}>
+                              <select>
                                 <option value="move" disabled>Move to...</option>
                                 <option value="currentlyReading">Currently Reading</option>
                                 <option value="wantToRead">Want to Read</option>
@@ -49,8 +68,8 @@ class SearchBooks extends Component {
                               </select>
                             </div>
                           </div>
-                          <div className="book-title">{book.title}</div>
-                          { book.author && 
+                          <div className="book-title" >{book.title}</div>
+                          { book.authors && 
                             <div className="book-authors">
                               {book.authors[0]}
                             </div>
