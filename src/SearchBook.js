@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
+import Book from './Book'
 import './App.css'
 
 class SearchBooks extends Component {
   state = {
-      query: ''
+      query: '',
+      searchErr: false
   }
   
   updateQuery = (query)=>{
@@ -19,14 +21,20 @@ class SearchBooks extends Component {
         this.props.onSearchBooks(this.state.query)
       }
     }
+    if(this.props.books.length<0){
+      this.setState({searchErr: true})
+    } else {
+      this.setState({searchErr: false})
+    }
   }
+
   // getOne = (bookId)=>{
   //   if(this.props.onSearchById && bookId)
   //   this.props.onSearchById(bookId)
   //   console.log(bookId)
   // }
   render() {
-    const {query} = this.state;
+    const {query, searchErr} = this.state;
     const {books}= this.props;
     // console.log(books)
         return (
@@ -49,34 +57,15 @@ class SearchBooks extends Component {
               </div>
               <div className="search-books-results">
                 <ol className="books-grid">
-                  {books &&
+                  {!searchErr &&
                     books.map((book)=> (
                       <li key = {book.id}>
-                        <div className="book">
-                          <div className="book-top">
-                            {
-                              book.imageLinks && book.imageLinks.thumbnail &&
-                              <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail}` }}></div>
-                            }
-                            <div className="book-shelf-changer">
-                              <select>
-                                <option value="move" disabled>Move to...</option>
-                                <option value="currentlyReading">Currently Reading</option>
-                                <option value="wantToRead">Want to Read</option>
-                                <option value="read">Read</option>
-                                <option value="none">None</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div className="book-title" >{book.title}</div>
-                          { book.authors && 
-                            <div className="book-authors">
-                              {book.authors[0]}
-                            </div>
-                          }
-                        </div>
+                        <Book book = {book}/>
                       </li>
                     ))
+                  }
+                  { searchErr && 
+                    <h3>Search did not return any books. Please try again!</h3>
                   }
                 </ol>
               </div>

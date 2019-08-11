@@ -4,7 +4,7 @@ import {Route} from 'react-router-dom'
 import SearchBooks from './SearchBook';
 import ShowAll from './ShowAll';
 import * as BooksAPI from './BooksAPI'
-import ShowOne from './ShowOne';
+// import ShowOne from './ShowOne';
 
 class BooksApp extends React.Component {
   state = {
@@ -56,9 +56,9 @@ class BooksApp extends React.Component {
             />
           )}
         />
-        <Route path = '/book' render = {()=> (
+        {/* <Route path = '/book' render = {()=> (
           <ShowOne book = {this.state.book}/>
-        )}/>
+        )}/> */}
       </div>
     )
   }
