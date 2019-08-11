@@ -103,6 +103,7 @@ body, .app {
   top: 20px;
   left: 15px;
   width: 50px;
+  background: #e7edef;
   height: 53px;
   background-image: url('./icons/arrow-back.svg');
   background-position: center;

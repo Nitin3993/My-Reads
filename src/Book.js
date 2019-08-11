@@ -9,7 +9,7 @@ class Book extends Component {
         changeShelf: PropTypes.func.isRequired
       };
     updateShelf = (event) => {
-        console.log(this.props.book, "book", event.target.value, "value")
+        // console.log(this.props.book, "book", event.target.value, "value")
         this.props.changeShelf(this.props.book, event.target.value)
     }
     render() {

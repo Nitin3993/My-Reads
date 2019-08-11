@@ -6,7 +6,7 @@ import './App.css'
 class SearchBooks extends Component {
   state = {
       query: '',
-      searchErr: false
+      // searchErr: false
   }
   
   updateQuery = (query)=>{
@@ -15,25 +15,30 @@ class SearchBooks extends Component {
   }
   sendQuery = (key)=>{
     if(key==='Enter'){
-      if(this.props.onSearchBooks)
+      if(this.props.onSearchBooks && this.state.query)
       {
         this.props.onSearchBooks(this.state.query)
       }
-    }
-    if(this.props.books.length<0){
-      this.setState({searchErr: true})
-    } else {
-      this.setState({searchErr: false})
+      // if(this.props.searchedBooks.length===0){
+      //   this.setState({searchErr: true})
+      //   console.log(this.state.searchErr)
+  
+      // } else {
+      //   this.setState({searchErr: false})
+      //   console.log(this.state.searchErr)
+      // }
     }
   }
 
   render() {
-    const {query, searchErr} = this.state;
+    const {query} = this.state;
     const {books, changeShelf, searchedBooks}= this.props;
         return (
             <div className="search-books">
               <div className="search-books-bar">
-                <Link to='/' className="close-search" >Close</Link>
+              <Link className="close-search" to="/">
+                Close
+              </Link>
                 <div className="search-books-input-wrapper">
                   <input value = {query} 
                     onChange={(e)=>{
@@ -50,16 +55,16 @@ class SearchBooks extends Component {
               </div>
               <div className="search-books-results">
                 <ol className="books-grid">
-                  {!searchErr &&
+                  {searchedBooks.length>0 &&
                     searchedBooks.map((book)=> (
                       <li key = {book.id}>
                         <Book book = {book} books = {books} changeShelf={changeShelf}/>
                       </li>
                     ))
                   }
-                  { searchErr && 
+                  {/* { (this.state.searchErr) && 
                     <h3>Search did not return any books. Please try again!</h3>
-                  }
+                  } */}
                 </ol>
               </div>
           </div>
