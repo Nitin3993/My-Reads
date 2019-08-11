@@ -17,7 +17,6 @@ class SearchBooks extends Component {
     if(key==='Enter'){
       if(this.props.onSearchBooks)
       {
-        // console.log(this.state.query)
         this.props.onSearchBooks(this.state.query)
       }
     }
@@ -28,15 +27,9 @@ class SearchBooks extends Component {
     }
   }
 
-  // getOne = (bookId)=>{
-  //   if(this.props.onSearchById && bookId)
-  //   this.props.onSearchById(bookId)
-  //   console.log(bookId)
-  // }
   render() {
     const {query, searchErr} = this.state;
-    const {books}= this.props;
-    // console.log(books)
+    const {books, changeShelf, searchedBooks}= this.props;
         return (
             <div className="search-books">
               <div className="search-books-bar">
@@ -58,9 +51,9 @@ class SearchBooks extends Component {
               <div className="search-books-results">
                 <ol className="books-grid">
                   {!searchErr &&
-                    books.map((book)=> (
+                    searchedBooks.map((book)=> (
                       <li key = {book.id}>
-                        <Book book = {book}/>
+                        <Book book = {book} books = {books} changeShelf={changeShelf}/>
                       </li>
                     ))
                   }

@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
 import Book from './Book'
 class ShowAll extends Component {
     render() {
-        const {books} = this.props;
+        const {books, changeShelf} = this.props;
         return (
             <div className="list-books">
                 <div className="list-books-title">
@@ -20,7 +20,7 @@ class ShowAll extends Component {
                                 {
                                     books.filter(book => book.shelf === "currentlyReading").map((book)=> (
                                         <li key = {book.id}>
-                                            <Book book = {book}/>
+                                            <Book book = {book} books = {books} changeShelf={changeShelf}/>
                                         </li>
                                     ))}
                                 </ol>
@@ -31,7 +31,7 @@ class ShowAll extends Component {
                                 {
                                     books.filter(book => book.shelf === "wantToRead").map((book)=> (
                                         <li key = {book.id}>
-                                            <Book book = {book}/>
+                                            <Book book = {book} books = {books} changeShelf={changeShelf}/>
                                         </li>
                                     ))}
                                 </ol>
@@ -42,7 +42,7 @@ class ShowAll extends Component {
                                 {
                                     books.filter(book => book.shelf === "read").map((book)=> (
                                         <li key = {book.id}>
-                                            <Book book = {book}/>
+                                            <Book book = {book} books = {books} changeShelf={changeShelf}/>
                                         </li>
                                     ))}
                                 </ol>

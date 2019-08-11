@@ -4,7 +4,6 @@ import {Route} from 'react-router-dom'
 import SearchBooks from './SearchBook';
 import ShowAll from './ShowAll';
 import * as BooksAPI from './BooksAPI'
-// import ShowOne from './ShowOne';
 
 class BooksApp extends React.Component {
   state = {
@@ -18,16 +17,18 @@ class BooksApp extends React.Component {
     })
     
   }
-  // getOne(bookId) {
-  //   BooksAPI.get(bookId).then((book)=> {
-  //     console.log(book, "yo book found");
-  //     this.setState({book})
-  //   })
-  // }
   searchBooks(query) {
     BooksAPI.search(query).then((searchedBooks)=>{
       if(searchedBooks && !searchedBooks.error)
         this.setState({searchedBooks})
+    })
+  }
+  changeShelf=(changedBook, shelf) => {
+    BooksAPI.update(changedBook, shelf).then((updatedBook)=>{
+      changedBook.shelf = shelf;
+      this.setState(state=>({
+        books: state.books.filter((book)=>book.id !== changedBook.id).concat(changedBook)
+      }))
     })
   }
   render() {
@@ -38,6 +39,7 @@ class BooksApp extends React.Component {
           render={()=> (
             <ShowAll 
               books={this.state.books}
+              changeShelf={this.changeShelf}
             />
           )} 
         />
@@ -49,16 +51,12 @@ class BooksApp extends React.Component {
                 this.searchBooks(query)
                 }
               }
-              // onSearchById = {(bookId)=>{
-              //   this.getOne(bookId)
-              // }}
-              books={this.state.searchedBooks}
+              searchedBooks={this.state.searchedBooks}
+              books = {this.state.books}
+              changeShelf={this.changeShelf}
             />
           )}
         />
-        {/* <Route path = '/book' render = {()=> (
-          <ShowOne book = {this.state.book}/>
-        )}/> */}
       </div>
     )
   }
